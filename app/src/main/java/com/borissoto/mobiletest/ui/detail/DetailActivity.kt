@@ -3,62 +3,74 @@ package com.borissoto.mobiletest.ui.detail
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
-import androidx.lifecycle.lifecycleScope
 import com.borissoto.mobiletest.R
-import com.borissoto.mobiletest.data.database.CommentItem
 import com.borissoto.mobiletest.data.database.PostsItem
 import com.borissoto.mobiletest.data.database.UserItem
 import com.borissoto.mobiletest.databinding.ActivityDetailBinding
-import com.borissoto.mobiletest.domain.AuthorRepository
-import com.borissoto.mobiletest.domain.CommentsRepository
 
 
-class DetailActivity : AppCompatActivity(), DetailPresenter.View {
-
-    private val presenter by lazy { DetailPresenter(AuthorRepository(), CommentsRepository(), lifecycleScope) }
-    private var detailAdapter = DetailAdapter()
-    private lateinit var binding: ActivityDetailBinding
-
+class DetailActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_POST = "DetailActivity:post"
     }
+
+    private val viewModel: DetailViewModel by viewModels {
+        DetailViewModelFactory(
+            requireNotNull(
+                intent.getParcelableExtra(EXTRA_POST)
+            )
+        )
+    }
+
+    private var detailAdapter = DetailAdapter()
+    private lateinit var binding: ActivityDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val post = intent.getParcelableExtra<PostsItem>(EXTRA_POST)
-        if (post != null) {
-            binding.textPostTitle.text = post.title
-            binding.textPostBody.text = post.body
+        viewModel.state.observe(this) {
+            updateUI(it.post)
+        }
 
-            presenter.onCreate(this, post.id, post.userId)
+        viewModel.stateAuthor.observe(this){
+           updateAuthor(it)
+        }
 
-            binding.recyclerComments.adapter = detailAdapter
+        viewModel.stateComments.observe(this){
+            updateComments(it)
+        }
 
-            binding.btnFavorite.setOnClickListener {
+        binding.recyclerComments.adapter = detailAdapter
+        binding.btnFavorite.setOnClickListener {
 
-            }
         }
     }
 
-    override fun updateAuthor(author: UserItem) {
-        binding.progressBarAuthor.visibility = View.VISIBLE
-        bindDetailInfoAuthor(binding.textAuthorName, author)
-        binding.progressBarAuthor.visibility = View.GONE
+    private fun updateUI(post: PostsItem) = with(binding) {
+            textPostTitle.text = post.title
+            textPostBody.text = post.body
     }
 
-    override fun updateComments(allComments: List<CommentItem>) {
-        binding.progressBarComments.visibility = View.VISIBLE
-        detailAdapter.comments = allComments
-        detailAdapter.notifyDataSetChanged()
-        binding.progressBarComments.visibility = View.GONE
+    private fun updateAuthor(state: DetailViewModel.UiAuthorState) {
+        binding.progressBarAuthor.visibility = if (state.loading) View.VISIBLE else View.GONE
+        state.author?.let {
+            bindDetailInfoAuthor(binding.textAuthorName, it)
+        }
+    }
+
+    private fun updateComments(state: DetailViewModel.UiCommentsState) {
+
+        binding.progressBarComments.visibility = if (state.loading) View.VISIBLE else View.GONE
+        state.comments?.let {
+            detailAdapter.comments = it
+        }
     }
 
 
@@ -79,7 +91,5 @@ class DetailActivity : AppCompatActivity(), DetailPresenter.View {
         }
         appendLine(value)
     }
-
-
 
 }
