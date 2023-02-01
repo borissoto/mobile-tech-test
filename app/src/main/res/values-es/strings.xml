@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Test Moblie</string>
+    <string name="post_title">Titulo</string>
+    <string name="description_title">Descripcion</string>
+    <string name="author_title">Autor</string>
+    <string name="author_name">Nombre</string>
+    <string name="author_username">Usuario</string>
+    <string name="author_email">Email</string>
+    <string name="author_website">Sitio Web</string>
+    <string name="comments">Comentarios</string>
+</resources>
