@@ -1,8 +1,11 @@
 package com.borissoto.mobiletest.ui.main
 
 import androidx.lifecycle.*
-import com.borissoto.mobiletest.data.database.PostsItem
 import com.borissoto.mobiletest.domain.PostsRepository
+import com.borissoto.mobiletest.model.database.Post
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -11,26 +14,25 @@ class MainViewModel(
 
     data class UiState(
         val loading: Boolean = false,
-        val posts: List<PostsItem>? = null,
-        val navigateTo: PostsItem? = null
+        val posts: List<Post>? = null,
     )
 
-    private val _state = MutableLiveData(UiState())
-    val state: LiveData<UiState> get() {
-        if (_state.value?.posts == null){
-            refresh()
-        }
-        return _state
-    }
-    private fun refresh() {
+    private val _state = MutableStateFlow(UiState())
+    val state: StateFlow<UiState> = _state.asStateFlow()
+
+    init {
         viewModelScope.launch {
-            _state.value = UiState(loading = true)
-            _state.value = UiState(posts = postsRepository.getAllPosts())
-            _state.value = UiState(loading = false)
+            postsRepository.allPosts.collect{
+                _state.value = UiState(posts = it)
+            }
         }
     }
-    fun onPostClicked(post: PostsItem){
-        _state.value = _state.value?.copy(navigateTo = post)
+    fun onUiReady() {
+        viewModelScope.launch {
+//            _state.value = UiState(loading = true)
+            postsRepository.requestAllPosts()
+
+        }
     }
 }
 

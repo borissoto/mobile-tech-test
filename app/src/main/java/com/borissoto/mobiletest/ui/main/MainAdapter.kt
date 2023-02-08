@@ -1,55 +1,34 @@
 package com.borissoto.mobiletest.ui.main
 
-import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.borissoto.mobiletest.data.database.PostsItem
+import com.borissoto.mobiletest.R
 import com.borissoto.mobiletest.databinding.PostItemBinding
-import kotlin.properties.Delegates
+import com.borissoto.mobiletest.model.database.Post
+import com.borissoto.mobiletest.util.basicDiffUtil
+import com.borissoto.mobiletest.util.inflate
 
 class MainAdapter(
-    private val postClickedListener: (PostsItem) -> Unit,
-) : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
-
-    var posts: List<PostsItem> by Delegates.observable(emptyList()) {_, old, new ->
-        DiffUtil.calculateDiff(object : DiffUtil.Callback(){
-            override fun getOldListSize(): Int = old.size
-
-            override fun getNewListSize(): Int = new.size
-
-            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return old[oldItemPosition].id == new[newItemPosition].id
-            }
-
-            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return old[oldItemPosition] == new[newItemPosition]
-            }
-
-        }).dispatchUpdatesTo(this)
-    }
+    private val postClickedListener: (Post) -> Unit,
+) : ListAdapter<Post, MainAdapter.ViewHolder>(basicDiffUtil { old, new -> old.id == new.id }) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = PostItemBinding.inflate(
-            LayoutInflater
-                .from(parent.context), parent, false
-        )
-        return ViewHolder(binding)
-    }
-
-    override fun getItemCount(): Int {
-        return posts.size
+        val view = parent.inflate(R.layout.post_item, false)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val post = posts[position]
+        val post = getItem(position)
         holder.bind(post)
         holder.itemView.setOnClickListener { postClickedListener(post)}
     }
 
-    class ViewHolder(private val binding: PostItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(post: PostsItem) {
-            binding.textPost.text = post.title
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private val binding = PostItemBinding.bind(view)
+        fun bind(post: Post) {
+            binding.post = post
         }
     }
 }

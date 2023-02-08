@@ -1,4 +1,5 @@
 package com.borissoto.mobiletest.data.datasource
 
-class RemoteDataSource {
+class RemoteDataSource() {
+    suspend fun getAllPosts() = RemoteConnection.service.listAllPosts()
 }
