@@ -1,4 +1,4 @@
-package com.borissoto.mobiletest.data.database
+package com.borissoto.mobiletest.framework.server.model
 
 //class User : ArrayList<UserItem>()
 

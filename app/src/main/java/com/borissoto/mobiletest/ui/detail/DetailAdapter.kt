@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.borissoto.mobiletest.data.database.CommentItem
+import com.borissoto.mobiletest.framework.server.model.CommentItem
 import com.borissoto.mobiletest.databinding.CommentItemBinding
 import kotlin.properties.Delegates
 

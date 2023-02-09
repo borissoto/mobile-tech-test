@@ -1,6 +1,6 @@
-package com.borissoto.mobiletest.data.datasource
+package com.borissoto.mobiletest.framework.server
 
-import com.borissoto.mobiletest.util.Constants.BASE_URL
+import com.borissoto.mobiletest.ui.util.Constants.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

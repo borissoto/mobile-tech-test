@@ -1,4 +1,4 @@
-package com.borissoto.mobiletest.model.database
+package com.borissoto.mobiletest.framework.database
 
 import android.os.Parcelable
 import androidx.room.Entity

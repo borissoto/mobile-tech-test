@@ -10,19 +10,32 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.borissoto.mobiletest.R
-import com.borissoto.mobiletest.data.database.UserItem
+import com.borissoto.mobiletest.framework.server.model.UserItem
 import com.borissoto.mobiletest.databinding.FragmentDetailBinding
-import com.borissoto.mobiletest.domain.PostsRepository
-import com.borissoto.mobiletest.util.app
-import com.borissoto.mobiletest.util.launchAndCollect
+import com.borissoto.mobiletest.usecases.FindPostUseCase
+import com.borissoto.mobiletest.data.PostsRepository
+import com.borissoto.mobiletest.framework.database.LocalDataSource
+import com.borissoto.mobiletest.framework.server.RemoteDataSource
+import com.borissoto.mobiletest.usecases.SwitchFavoriteUseCase
+import com.borissoto.mobiletest.ui.util.app
+import com.borissoto.mobiletest.ui.util.launchAndCollect
 
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
     private val safeArgs: DetailFragmentArgs by navArgs()
 
     private val viewModel: DetailViewModel by viewModels {
-        DetailViewModelFactory(safeArgs.post, PostsRepository(requireActivity().app))
-
+        val application = requireActivity().app
+        val repository = PostsRepository(
+            LocalDataSource(application.db.postDao()),
+            RemoteDataSource()
+        )
+        DetailViewModelFactory(
+            safeArgs.postId,
+            safeArgs.userId,
+            FindPostUseCase(repository),
+            SwitchFavoriteUseCase(repository)
+        )
     }
 
     private var detailAdapter = DetailAdapter()

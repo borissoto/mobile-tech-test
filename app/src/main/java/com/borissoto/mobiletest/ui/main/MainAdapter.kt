@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.borissoto.mobiletest.R
 import com.borissoto.mobiletest.databinding.PostItemBinding
-import com.borissoto.mobiletest.model.database.Post
-import com.borissoto.mobiletest.util.basicDiffUtil
-import com.borissoto.mobiletest.util.inflate
+import com.borissoto.mobiletest.domain.Post
+import com.borissoto.mobiletest.ui.util.basicDiffUtil
+import com.borissoto.mobiletest.ui.util.inflate
 
 class MainAdapter(
     private val postClickedListener: (Post) -> Unit,

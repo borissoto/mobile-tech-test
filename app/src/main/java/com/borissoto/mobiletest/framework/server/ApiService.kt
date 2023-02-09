@@ -1,9 +1,8 @@
-package com.borissoto.mobiletest.data.datasource
+package com.borissoto.mobiletest.framework.server
 
-import com.borissoto.mobiletest.data.database.CommentItem
-import com.borissoto.mobiletest.data.database.PostsItem
-import com.borissoto.mobiletest.data.database.UserItem
-import retrofit2.Call
+import com.borissoto.mobiletest.framework.server.model.CommentItem
+import com.borissoto.mobiletest.framework.server.model.PostsItem
+import com.borissoto.mobiletest.framework.server.model.UserItem
 import retrofit2.http.GET
 import retrofit2.http.Path
 

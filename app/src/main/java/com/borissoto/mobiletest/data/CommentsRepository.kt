@@ -1,6 +1,6 @@
-package com.borissoto.mobiletest.domain
+package com.borissoto.mobiletest.data
 
-import com.borissoto.mobiletest.data.datasource.RemoteConnection
+import com.borissoto.mobiletest.framework.server.RemoteConnection
 
 class CommentsRepository {
     suspend fun getCommentsByPostId(postId: Int) =

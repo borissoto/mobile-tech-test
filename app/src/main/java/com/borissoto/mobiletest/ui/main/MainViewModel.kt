@@ -1,16 +1,18 @@
 package com.borissoto.mobiletest.ui.main
 
 import androidx.lifecycle.*
-import com.borissoto.mobiletest.domain.PostsRepository
-import com.borissoto.mobiletest.model.database.Post
+import com.borissoto.mobiletest.domain.Post
+import com.borissoto.mobiletest.usecases.GetPostsUseCase
+import com.borissoto.mobiletest.usecases.RequestPostsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val postsRepository: PostsRepository
-): ViewModel() {
+    private val getPostsUseCase: GetPostsUseCase,
+    private val requestPostsUseCase: RequestPostsUseCase
+) : ViewModel() {
 
     data class UiState(
         val loading: Boolean = false,
@@ -22,24 +24,28 @@ class MainViewModel(
 
     init {
         viewModelScope.launch {
-            postsRepository.allPosts.collect{
+            getPostsUseCase().collect {
                 _state.value = UiState(posts = it)
             }
         }
     }
+
     fun onUiReady() {
         viewModelScope.launch {
 //            _state.value = UiState(loading = true)
-            postsRepository.requestAllPosts()
-
+            requestPostsUseCase()
+//            _state.value = UiState(loading = false)
         }
     }
 }
 
 @Suppress("UNCHECKED_CAST")
-class MainViewModelFactory(private val postsRepository: PostsRepository): ViewModelProvider.Factory{
+class MainViewModelFactory(
+    private val getPostsUseCase: GetPostsUseCase,
+    private val requestPostsUseCase: RequestPostsUseCase
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MainViewModel(postsRepository) as T
+        return MainViewModel(getPostsUseCase, requestPostsUseCase) as T
     }
 
 }

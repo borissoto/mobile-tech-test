@@ -1,4 +1,4 @@
-package com.borissoto.mobiletest.util
+package com.borissoto.mobiletest.ui.util
 
 import android.content.Context
 import android.view.LayoutInflater

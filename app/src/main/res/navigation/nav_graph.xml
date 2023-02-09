@@ -24,7 +24,10 @@
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" >
         <argument
-            android:name="post"
-            app:argType="com.borissoto.mobiletest.model.database.Post" />
+            android:name="postId"
+            app:argType="integer" />
+        <argument
+            android:name="userId"
+            app:argType="integer" />
     </fragment>
 </navigation>

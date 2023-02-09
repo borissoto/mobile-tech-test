@@ -5,7 +5,7 @@
 
     <data>
         <import type="java.util.List"/>
-        <import type="com.borissoto.mobiletest.model.database.Post"/>
+        <import type="com.borissoto.mobiletest.domain.Post"/>
         <variable
             name="loading"
             type="boolean" />

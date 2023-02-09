@@ -1,4 +1,4 @@
-package com.borissoto.mobiletest.model.database
+package com.borissoto.mobiletest.framework.database
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="post"
-            type="com.borissoto.mobiletest.model.database.Post" />
+            type="com.borissoto.mobiletest.domain.Post" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

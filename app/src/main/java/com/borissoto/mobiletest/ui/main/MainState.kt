@@ -1,7 +1,7 @@
 package com.borissoto.mobiletest.ui.main
 
 import androidx.navigation.NavController
-import com.borissoto.mobiletest.model.database.Post
+import com.borissoto.mobiletest.domain.Post
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -11,7 +11,7 @@ class MainState(
 ) {
 
     fun onPostClicked(post: Post) {
-        val navAction = MainFragmentDirections.actionMainFragmentToDetailFragment(post)
+        val navAction = MainFragmentDirections.actionMainFragmentToDetailFragment(post.id, post.userId)
          navController.navigate(navAction)
     }
 
