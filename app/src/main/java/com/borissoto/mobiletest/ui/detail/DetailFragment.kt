@@ -16,8 +16,8 @@ import com.borissoto.mobiletest.databinding.FragmentDetailBinding
 import com.borissoto.mobiletest.usecases.FindPostUseCase
 import com.borissoto.mobiletest.data.PostsRepository
 import com.borissoto.mobiletest.domain.Author
-import com.borissoto.mobiletest.framework.database.LocalDataSource
-import com.borissoto.mobiletest.framework.server.RemoteDataSource
+import com.borissoto.mobiletest.data.database.LocalDataSource
+import com.borissoto.mobiletest.data.server.RemoteDataSource
 import com.borissoto.mobiletest.usecases.SwitchFavoriteUseCase
 import com.borissoto.mobiletest.ui.util.app
 import com.borissoto.mobiletest.ui.util.launchAndCollect

@@ -1,10 +1,10 @@
-package com.borissoto.mobiletest.framework.server
+package com.borissoto.mobiletest.data.server
 
 import com.borissoto.mobiletest.data.datasource.IRemoteDataSource
 import com.borissoto.mobiletest.domain.Author
 import com.borissoto.mobiletest.domain.Comment
 import com.borissoto.mobiletest.domain.Post
-import com.borissoto.mobiletest.framework.server.model.PostsItem
+import com.borissoto.mobiletest.data.server.model.PostsItem
 
 class RemoteDataSource() : IRemoteDataSource {
     override suspend fun getAllPosts() = RemoteConnection.service.listAllPosts().map {

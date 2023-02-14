@@ -10,8 +10,8 @@ import com.borissoto.mobiletest.R
 import com.borissoto.mobiletest.databinding.FragmentMainBinding
 import com.borissoto.mobiletest.usecases.GetPostsUseCase
 import com.borissoto.mobiletest.data.PostsRepository
-import com.borissoto.mobiletest.framework.database.LocalDataSource
-import com.borissoto.mobiletest.framework.server.RemoteDataSource
+import com.borissoto.mobiletest.data.database.LocalDataSource
+import com.borissoto.mobiletest.data.server.RemoteDataSource
 import com.borissoto.mobiletest.usecases.RequestPostsUseCase
 import com.borissoto.mobiletest.ui.util.app
 import com.borissoto.mobiletest.ui.util.launchAndCollect

@@ -2,7 +2,7 @@ package com.borissoto.mobiletest
 
 import android.app.Application
 import androidx.room.Room
-import com.borissoto.mobiletest.framework.database.PostDataBase
+import com.borissoto.mobiletest.data.database.PostDataBase
 
 class App : Application() {
 

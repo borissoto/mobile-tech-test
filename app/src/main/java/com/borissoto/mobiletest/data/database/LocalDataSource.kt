@@ -1,7 +1,7 @@
-package com.borissoto.mobiletest.framework.database
+package com.borissoto.mobiletest.data.database
 
 import com.borissoto.mobiletest.data.datasource.ILocalDataSource
-import com.borissoto.mobiletest.framework.database.Post as DBPost
+import com.borissoto.mobiletest.data.database.Post as DBPost
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
