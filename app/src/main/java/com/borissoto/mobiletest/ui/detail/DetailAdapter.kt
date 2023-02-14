@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.borissoto.mobiletest.framework.server.model.CommentItem
 import com.borissoto.mobiletest.databinding.CommentItemBinding
+import com.borissoto.mobiletest.domain.Comment
 import kotlin.properties.Delegates
 
 class DetailAdapter() : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
-    var comments: List<CommentItem> by Delegates.observable(emptyList()) { _, old, new ->
+    var comments: List<Comment> by Delegates.observable(emptyList()) { _, old, new ->
         DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun getOldListSize(): Int = old.size
 
@@ -36,7 +36,7 @@ class DetailAdapter() : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
     }
 
     class ViewHolder(private val binding: CommentItemBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(comment: CommentItem){
+        fun bind(comment: Comment){
             binding.textComment.text = comment.body
             binding.textCommentEmail.text = comment.email
         }

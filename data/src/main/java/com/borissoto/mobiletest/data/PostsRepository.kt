@@ -1,6 +1,5 @@
 package com.borissoto.mobiletest.data
 
-import com.borissoto.mobiletest.framework.server.model.PostsItem
 import com.borissoto.mobiletest.data.datasource.ILocalDataSource
 import com.borissoto.mobiletest.data.datasource.IRemoteDataSource
 import com.borissoto.mobiletest.domain.Post
@@ -16,9 +15,7 @@ class PostsRepository(
     suspend fun requestAllPosts() {
         if (localDataSource.isEmpty()) {
             val posts = remoteDataSource.getAllPosts()
-            localDataSource.save(posts.map {
-                it.toLocalModel()
-            })
+            localDataSource.save(posts)
         }
     }
 
@@ -27,11 +24,3 @@ class PostsRepository(
         localDataSource.save(listOf(updatedPost))
     }
 }
-
-private fun PostsItem.toLocalModel(): Post = Post(
-    id,
-    body,
-    title,
-    userId,
-    false
-)

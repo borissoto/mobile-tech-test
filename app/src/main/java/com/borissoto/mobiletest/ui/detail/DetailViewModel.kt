@@ -1,12 +1,9 @@
 package com.borissoto.mobiletest.ui.detail
 
 import androidx.lifecycle.*
-import com.borissoto.mobiletest.data.AuthorRepository
-import com.borissoto.mobiletest.data.CommentsRepository
-import com.borissoto.mobiletest.framework.server.model.CommentItem
-import com.borissoto.mobiletest.framework.server.model.UserItem
+import com.borissoto.mobiletest.domain.Author
+import com.borissoto.mobiletest.domain.Comment
 import com.borissoto.mobiletest.usecases.*
-import com.borissoto.mobiletest.domain.Post
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,21 +13,23 @@ class DetailViewModel(
     private val postId: Int,
     private val userId: Int,
     findPostUseCase: FindPostUseCase,
-    private val switchFavoriteUseCase: SwitchFavoriteUseCase
+    private val switchFavoriteUseCase: SwitchFavoriteUseCase,
+    private val requestCommentsUseCase: RequestCommentsUseCase,
+    private val authorUseCase: RequestAuthorUseCase
 ) : ViewModel() {
-    data class UiDetailState(val post: Post? = null)
+    data class UiDetailState(val post: com.borissoto.mobiletest.domain.Post? = null)
     data class UiAuthorState(
         val loading: Boolean = false,
-        val author: UserItem? = null
+        val author: Author? = null
     )
 
     data class UiCommentsState(
         val loading: Boolean = false,
-        val comments: List<CommentItem>? = null,
+        val comments: List<Comment>? = null,
     )
 
-    private val authorRepository by lazy { AuthorRepository() }
-    private val commentsRepository by lazy { CommentsRepository() }
+//    private val authorRepository by lazy { AuthorRepository() }
+//    private val commentsRepository by lazy { CommentsRepository() }
 
     private val _state = MutableStateFlow(UiDetailState())
     val state: StateFlow<UiDetailState> = _state.asStateFlow()
@@ -55,7 +54,7 @@ class DetailViewModel(
     private fun getAuthor() {
         viewModelScope.launch {
             _stateAuthor.value = UiAuthorState(loading = true)
-            _stateAuthor.value = UiAuthorState(author = authorRepository.getAuthorById(userId))
+            _stateAuthor.value = UiAuthorState(author = authorUseCase(userId))
         }
     }
 
@@ -72,7 +71,7 @@ class DetailViewModel(
         viewModelScope.launch {
             _stateComments.value = UiCommentsState(loading = true)
             _stateComments.value =
-                UiCommentsState(comments = commentsRepository.getCommentsByPostId(postId))
+                UiCommentsState(comments = requestCommentsUseCase(postId))
         }
     }
 
@@ -90,9 +89,18 @@ class DetailViewModelFactory(
     private val postId: Int,
     private val userId: Int,
     private val findPostUseCase: FindPostUseCase,
-    private val switchFavoriteUseCase: SwitchFavoriteUseCase
+    private val switchFavoriteUseCase: SwitchFavoriteUseCase,
+    private val requestCommentsUseCase: RequestCommentsUseCase,
+    private val authorUseCase: RequestAuthorUseCase
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return DetailViewModel(postId, userId, findPostUseCase, switchFavoriteUseCase) as T
+        return DetailViewModel(
+            postId,
+            userId,
+            findPostUseCase,
+            switchFavoriteUseCase,
+            requestCommentsUseCase,
+            authorUseCase
+        ) as T
     }
 }

@@ -10,15 +10,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.borissoto.mobiletest.R
-import com.borissoto.mobiletest.framework.server.model.UserItem
+import com.borissoto.mobiletest.data.AuthorRepository
+import com.borissoto.mobiletest.data.CommentsRepository
 import com.borissoto.mobiletest.databinding.FragmentDetailBinding
 import com.borissoto.mobiletest.usecases.FindPostUseCase
 import com.borissoto.mobiletest.data.PostsRepository
+import com.borissoto.mobiletest.domain.Author
 import com.borissoto.mobiletest.framework.database.LocalDataSource
 import com.borissoto.mobiletest.framework.server.RemoteDataSource
 import com.borissoto.mobiletest.usecases.SwitchFavoriteUseCase
 import com.borissoto.mobiletest.ui.util.app
 import com.borissoto.mobiletest.ui.util.launchAndCollect
+import com.borissoto.mobiletest.usecases.RequestAuthorUseCase
+import com.borissoto.mobiletest.usecases.RequestCommentsUseCase
 
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
@@ -30,11 +34,19 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             LocalDataSource(application.db.postDao()),
             RemoteDataSource()
         )
+        val commentsRepository = CommentsRepository(
+            RemoteDataSource()
+        )
+        val authorRepository = AuthorRepository(
+            RemoteDataSource()
+        )
         DetailViewModelFactory(
             safeArgs.postId,
             safeArgs.userId,
             FindPostUseCase(repository),
-            SwitchFavoriteUseCase(repository)
+            SwitchFavoriteUseCase(repository),
+            RequestCommentsUseCase(commentsRepository),
+            RequestAuthorUseCase(authorRepository)
         )
     }
 
@@ -80,7 +92,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     }
 
 
-    private fun bindDetailInfoAuthor(detailInfo: TextView, author: UserItem) {
+    private fun bindDetailInfoAuthor(detailInfo: TextView, author: Author) {
         detailInfo.text = buildSpannedString {
             appendInfo(R.string.author_name, author.name)
             appendInfo(R.string.author_username, author.username)
