@@ -1,4 +1,4 @@
-package com.borissoto.mobiletest.data.server
+package com.borissoto.mobiletest.framework.server
 
 import com.borissoto.mobiletest.ui.util.Constants.BASE_URL
 import retrofit2.Retrofit

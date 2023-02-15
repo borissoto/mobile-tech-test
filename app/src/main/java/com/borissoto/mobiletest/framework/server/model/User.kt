@@ -1,4 +1,4 @@
-package com.borissoto.mobiletest.data.server.model
+package com.borissoto.mobiletest.framework.server.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

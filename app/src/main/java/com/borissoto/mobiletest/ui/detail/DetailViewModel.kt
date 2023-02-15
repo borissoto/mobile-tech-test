@@ -28,9 +28,6 @@ class DetailViewModel(
         val comments: List<Comment>? = null,
     )
 
-//    private val authorRepository by lazy { AuthorRepository() }
-//    private val commentsRepository by lazy { CommentsRepository() }
-
     private val _state = MutableStateFlow(UiDetailState())
     val state: StateFlow<UiDetailState> = _state.asStateFlow()
 

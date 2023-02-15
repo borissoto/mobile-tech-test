@@ -10,47 +10,27 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.borissoto.mobiletest.R
-import com.borissoto.mobiletest.data.AuthorRepository
-import com.borissoto.mobiletest.data.CommentsRepository
 import com.borissoto.mobiletest.databinding.FragmentDetailBinding
-import com.borissoto.mobiletest.usecases.FindPostUseCase
-import com.borissoto.mobiletest.data.PostsRepository
 import com.borissoto.mobiletest.domain.Author
-import com.borissoto.mobiletest.data.database.LocalDataSource
-import com.borissoto.mobiletest.data.server.RemoteDataSource
-import com.borissoto.mobiletest.usecases.SwitchFavoriteUseCase
 import com.borissoto.mobiletest.ui.util.app
 import com.borissoto.mobiletest.ui.util.launchAndCollect
-import com.borissoto.mobiletest.usecases.RequestAuthorUseCase
-import com.borissoto.mobiletest.usecases.RequestCommentsUseCase
 
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
     private val safeArgs: DetailFragmentArgs by navArgs()
 
+    private lateinit var component: DetailFragmentComponent
+
     private val viewModel: DetailViewModel by viewModels {
-        val application = requireActivity().app
-        val repository = PostsRepository(
-            LocalDataSource(application.db.postDao()),
-            RemoteDataSource()
-        )
-        val commentsRepository = CommentsRepository(
-            RemoteDataSource()
-        )
-        val authorRepository = AuthorRepository(
-            RemoteDataSource()
-        )
-        DetailViewModelFactory(
-            safeArgs.postId,
-            safeArgs.userId,
-            FindPostUseCase(repository),
-            SwitchFavoriteUseCase(repository),
-            RequestCommentsUseCase(commentsRepository),
-            RequestAuthorUseCase(authorRepository)
-        )
+        component.detailViewModelFactory
     }
 
     private var detailAdapter = DetailAdapter()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        component = app.component.plus(DetailFragmentModule(safeArgs.postId, safeArgs.userId))
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,7 +38,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         viewLifecycleOwner.launchAndCollect(viewModel.state) {
             if (it.post != null) {
                 binding.post = it.post
-
             }
         }
 

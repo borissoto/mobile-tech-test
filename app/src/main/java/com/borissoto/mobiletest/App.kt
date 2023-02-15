@@ -1,17 +1,19 @@
 package com.borissoto.mobiletest
 
 import android.app.Application
-import androidx.room.Room
-import com.borissoto.mobiletest.data.database.PostDataBase
+import com.borissoto.mobiletest.di.AppComponent
+import com.borissoto.mobiletest.di.DaggerAppComponent
 
 class App : Application() {
 
-    lateinit var db: PostDataBase
+    lateinit var component: AppComponent
         private set
 
     override fun onCreate() {
         super.onCreate()
 
-        db = Room.databaseBuilder(this, PostDataBase::class.java, "post-db").build()
+        component = DaggerAppComponent
+            .factory()
+            .create(this)
     }
 }

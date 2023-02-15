@@ -8,25 +8,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.borissoto.mobiletest.R
 import com.borissoto.mobiletest.databinding.FragmentMainBinding
-import com.borissoto.mobiletest.usecases.GetPostsUseCase
-import com.borissoto.mobiletest.data.PostsRepository
-import com.borissoto.mobiletest.data.database.LocalDataSource
-import com.borissoto.mobiletest.data.server.RemoteDataSource
-import com.borissoto.mobiletest.usecases.RequestPostsUseCase
 import com.borissoto.mobiletest.ui.util.app
 import com.borissoto.mobiletest.ui.util.launchAndCollect
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModel: MainViewModel by viewModels {
-        val localDataSource = LocalDataSource(requireActivity().app.db.postDao())
-        val remoteDataSource = RemoteDataSource()
-
-        val repository = PostsRepository(localDataSource, remoteDataSource)
-        MainViewModelFactory(
-            GetPostsUseCase(repository),
-            RequestPostsUseCase(repository)
-        )
+        app.component.mainViewModelFactory
     }
 
     private var mainAdapter = MainAdapter {

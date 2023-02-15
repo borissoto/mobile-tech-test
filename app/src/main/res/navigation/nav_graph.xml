@@ -25,9 +25,11 @@
         tools:layout="@layout/fragment_detail" >
         <argument
             android:name="postId"
-            app:argType="integer" />
+            app:argType="integer"
+            android:defaultValue="1" />
         <argument
             android:name="userId"
-            app:argType="integer" />
+            app:argType="integer"
+            android:defaultValue="1" />
     </fragment>
 </navigation>

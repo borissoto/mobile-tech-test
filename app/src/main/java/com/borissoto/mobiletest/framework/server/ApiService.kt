@@ -1,8 +1,8 @@
-package com.borissoto.mobiletest.data.server
+package com.borissoto.mobiletest.framework.server
 
 import com.borissoto.mobiletest.domain.Author
 import com.borissoto.mobiletest.domain.Comment
-import com.borissoto.mobiletest.data.server.model.PostsItem
+import com.borissoto.mobiletest.framework.server.model.PostsItem
 import retrofit2.http.GET
 import retrofit2.http.Path
 

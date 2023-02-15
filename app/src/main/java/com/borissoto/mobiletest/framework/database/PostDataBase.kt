@@ -1,4 +1,4 @@
-package com.borissoto.mobiletest.data.database
+package com.borissoto.mobiletest.framework.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
