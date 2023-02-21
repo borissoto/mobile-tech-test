@@ -4,22 +4,24 @@ import androidx.lifecycle.*
 import com.borissoto.mobiletest.domain.Author
 import com.borissoto.mobiletest.domain.Comment
 import com.borissoto.mobiletest.usecases.*
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailViewModel(
-    private val postId: Int,
-    private val userId: Int,
+@HiltViewModel
+class DetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     findPostUseCase: FindPostUseCase,
     private val switchFavoriteUseCase: SwitchFavoriteUseCase,
     private val requestCommentsUseCase: RequestCommentsUseCase,
     private val authorUseCase: RequestAuthorUseCase
 ) : ViewModel() {
+
+    private val postId = DetailFragmentArgs.fromSavedStateHandle(savedStateHandle).postId
+    private val userId = DetailFragmentArgs.fromSavedStateHandle(savedStateHandle).userId
     data class UiDetailState(val post: com.borissoto.mobiletest.domain.Post? = null)
     data class UiAuthorState(
         val loading: Boolean = false,
@@ -82,30 +84,4 @@ class DetailViewModel(
             }
         }
     }
-}
-
-@Suppress("UNCHECKED_CAST")
-class DetailViewModelFactory @AssistedInject constructor(
-    @Assisted("post") private val postId: Int,
-    @Assisted("user") private val userId: Int,
-    private val findPostUseCase: FindPostUseCase,
-    private val switchFavoriteUseCase: SwitchFavoriteUseCase,
-    private val requestCommentsUseCase: RequestCommentsUseCase,
-    private val authorUseCase: RequestAuthorUseCase
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return DetailViewModel(
-            postId,
-            userId,
-            findPostUseCase,
-            switchFavoriteUseCase,
-            requestCommentsUseCase,
-            authorUseCase
-        ) as T
-    }
-}
-
-@AssistedFactory
-interface DetailViewModelAssistedFactory {
-    fun create(@Assisted("post") postId: Int, @Assisted("user") userId: Int): DetailViewModelFactory
 }

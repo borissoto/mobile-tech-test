@@ -8,31 +8,18 @@ import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import com.borissoto.mobiletest.R
 import com.borissoto.mobiletest.databinding.FragmentDetailBinding
 import com.borissoto.mobiletest.domain.Author
-import com.borissoto.mobiletest.ui.util.app
 import com.borissoto.mobiletest.ui.util.launchAndCollect
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class DetailFragment : Fragment(R.layout.fragment_detail) {
-    private val safeArgs: DetailFragmentArgs by navArgs()
 
-    @Inject
-    lateinit var vmFactory: DetailViewModelAssistedFactory
-
-    private val viewModel: DetailViewModel by viewModels {
-        vmFactory.create(safeArgs.postId, safeArgs.userId)
-    }
+    private val viewModel: DetailViewModel by viewModels()
 
     private var detailAdapter = DetailAdapter()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        app.component.inject(this)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

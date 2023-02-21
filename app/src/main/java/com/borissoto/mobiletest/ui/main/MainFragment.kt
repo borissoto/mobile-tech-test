@@ -8,28 +8,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.borissoto.mobiletest.R
 import com.borissoto.mobiletest.databinding.FragmentMainBinding
-import com.borissoto.mobiletest.ui.util.app
 import com.borissoto.mobiletest.ui.util.launchAndCollect
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
 
-    @Inject
-    lateinit var vmFactory: MainViewModelFactory
-
-    private val viewModel: MainViewModel by viewModels {
-        vmFactory
-    }
+    private val viewModel: MainViewModel by viewModels()
 
     private var mainAdapter = MainAdapter {
         mainState.onPostClicked(it)
     }
     private lateinit var mainState: MainState
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        app.component.inject(this)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

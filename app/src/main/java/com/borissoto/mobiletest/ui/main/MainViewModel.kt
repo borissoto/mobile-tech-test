@@ -4,13 +4,15 @@ import androidx.lifecycle.*
 import com.borissoto.mobiletest.domain.Post
 import com.borissoto.mobiletest.usecases.GetPostsUseCase
 import com.borissoto.mobiletest.usecases.RequestPostsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MainViewModel(
+@HiltViewModel
+class MainViewModel @Inject constructor(
     private val getPostsUseCase: GetPostsUseCase,
     private val requestPostsUseCase: RequestPostsUseCase
 ) : ViewModel() {
@@ -38,15 +40,4 @@ class MainViewModel(
 //            _state.value = UiState(loading = false)
         }
     }
-}
-
-@Suppress("UNCHECKED_CAST")
-class MainViewModelFactory @Inject constructor(
-    private val getPostsUseCase: GetPostsUseCase,
-    private val requestPostsUseCase: RequestPostsUseCase
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MainViewModel(getPostsUseCase, requestPostsUseCase) as T
-    }
-
 }
