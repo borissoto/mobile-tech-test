@@ -4,10 +4,10 @@ import com.borissoto.mobiletest.data.datasource.ILocalDataSource
 import com.borissoto.mobiletest.framework.database.Post as DBPost
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 
-
-class LocalDataSource(private val postDao: PostDao) : ILocalDataSource {
+class LocalDataSource @Inject constructor(private val postDao: PostDao) : ILocalDataSource {
 
     override val posts: Flow<List<com.borissoto.mobiletest.domain.Post>> = postDao.getAllPosts().map {
         it.map { post ->

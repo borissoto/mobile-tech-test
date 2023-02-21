@@ -3,8 +3,9 @@ package com.borissoto.mobiletest.data
 import com.borissoto.mobiletest.data.datasource.ILocalDataSource
 import com.borissoto.mobiletest.data.datasource.IRemoteDataSource
 import com.borissoto.mobiletest.domain.Post
+import javax.inject.Inject
 
-class PostsRepository(
+class PostsRepository @Inject constructor(
     private val localDataSource: ILocalDataSource,
     private val remoteDataSource: IRemoteDataSource
 ) {

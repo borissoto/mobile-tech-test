@@ -4,6 +4,7 @@ import android.app.Application
 import com.borissoto.mobiletest.di.AppComponent
 import com.borissoto.mobiletest.di.DaggerAppComponent
 
+
 class App : Application() {
 
     lateinit var component: AppComponent

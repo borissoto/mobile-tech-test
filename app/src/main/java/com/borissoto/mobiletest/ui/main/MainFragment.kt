@@ -13,14 +13,21 @@ import com.borissoto.mobiletest.ui.util.launchAndCollect
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
+    private lateinit var component: MainFragmentComponent
+
     private val viewModel: MainViewModel by viewModels {
-        app.component.mainViewModelFactory
+        component.mainViewModelFactory
     }
 
     private var mainAdapter = MainAdapter {
         mainState.onPostClicked(it)
     }
     private lateinit var mainState: MainState
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        component = app.component.plus(MainFragmentModule())
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

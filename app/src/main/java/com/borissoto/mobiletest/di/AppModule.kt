@@ -7,6 +7,7 @@ import com.borissoto.mobiletest.framework.database.PostDataBase
 import com.borissoto.mobiletest.data.datasource.ILocalDataSource
 import com.borissoto.mobiletest.data.datasource.IRemoteDataSource
 import com.borissoto.mobiletest.framework.server.RemoteDataSource
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -23,10 +24,16 @@ object AppModule {
     ).build()
 
     @Provides
-    fun provideRemoteDataSource(): IRemoteDataSource =
-        RemoteDataSource()
+    @Singleton
+    fun providePostDao(db: PostDataBase) = db.postDao()
 
     @Provides
-    fun provideLocalDataSource(db: PostDataBase): ILocalDataSource =
-        LocalDataSource(db.postDao())
+    fun provideRemoteDataSource(): IRemoteDataSource = RemoteDataSource()
+
+}
+
+@Module
+abstract class AppDataModule{
+    @Binds
+    abstract fun bindLocalDataSource(localDataSource: LocalDataSource): ILocalDataSource
 }
