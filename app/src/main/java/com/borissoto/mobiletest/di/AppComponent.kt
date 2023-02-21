@@ -1,10 +1,8 @@
 package com.borissoto.mobiletest.di
 
 import android.app.Application
-import com.borissoto.mobiletest.ui.detail.DetailFragmentComponent
-import com.borissoto.mobiletest.ui.detail.DetailFragmentModule
-import com.borissoto.mobiletest.ui.main.MainFragmentComponent
-import com.borissoto.mobiletest.ui.main.MainFragmentModule
+import com.borissoto.mobiletest.ui.detail.DetailFragment
+import com.borissoto.mobiletest.ui.main.MainFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -15,8 +13,8 @@ import javax.inject.Singleton
 )
 interface AppComponent {
 
-    fun plus(mainFragmentModule: MainFragmentModule): MainFragmentComponent
-    fun plus(detailFragmentModule: DetailFragmentModule): DetailFragmentComponent
+    fun inject(fragment: MainFragment)
+    fun inject(fragment: DetailFragment)
 
     @Component.Factory
     interface Factory {

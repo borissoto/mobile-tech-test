@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class MainViewModel(
     private val getPostsUseCase: GetPostsUseCase,
@@ -40,7 +41,7 @@ class MainViewModel(
 }
 
 @Suppress("UNCHECKED_CAST")
-class MainViewModelFactory(
+class MainViewModelFactory @Inject constructor(
     private val getPostsUseCase: GetPostsUseCase,
     private val requestPostsUseCase: RequestPostsUseCase
 ) : ViewModelProvider.Factory {

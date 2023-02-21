@@ -14,22 +14,24 @@ import com.borissoto.mobiletest.databinding.FragmentDetailBinding
 import com.borissoto.mobiletest.domain.Author
 import com.borissoto.mobiletest.ui.util.app
 import com.borissoto.mobiletest.ui.util.launchAndCollect
+import javax.inject.Inject
 
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
     private val safeArgs: DetailFragmentArgs by navArgs()
 
-    private lateinit var component: DetailFragmentComponent
+    @Inject
+    lateinit var vmFactory: DetailViewModelAssistedFactory
 
     private val viewModel: DetailViewModel by viewModels {
-        component.detailViewModelFactory
+        vmFactory.create(safeArgs.postId, safeArgs.userId)
     }
 
     private var detailAdapter = DetailAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        component = app.component.plus(DetailFragmentModule(safeArgs.postId, safeArgs.userId))
+        app.component.inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

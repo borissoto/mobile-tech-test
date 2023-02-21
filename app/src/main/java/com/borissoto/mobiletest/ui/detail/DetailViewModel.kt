@@ -4,6 +4,9 @@ import androidx.lifecycle.*
 import com.borissoto.mobiletest.domain.Author
 import com.borissoto.mobiletest.domain.Comment
 import com.borissoto.mobiletest.usecases.*
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -82,9 +85,9 @@ class DetailViewModel(
 }
 
 @Suppress("UNCHECKED_CAST")
-class DetailViewModelFactory(
-    private val postId: Int,
-    private val userId: Int,
+class DetailViewModelFactory @AssistedInject constructor(
+    @Assisted("post") private val postId: Int,
+    @Assisted("user") private val userId: Int,
     private val findPostUseCase: FindPostUseCase,
     private val switchFavoriteUseCase: SwitchFavoriteUseCase,
     private val requestCommentsUseCase: RequestCommentsUseCase,
@@ -100,4 +103,9 @@ class DetailViewModelFactory(
             authorUseCase
         ) as T
     }
+}
+
+@AssistedFactory
+interface DetailViewModelAssistedFactory {
+    fun create(@Assisted("post") postId: Int, @Assisted("user") userId: Int): DetailViewModelFactory
 }
