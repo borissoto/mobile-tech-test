@@ -49,5 +49,5 @@ Run app: Shift + F10
 - Coroutines
 - Retrofit
 - Room
-- 
+- Hilt
 
