@@ -23,9 +23,8 @@ Create an app that lists all messages and their details from JSONPlaceholder.
 
 # Mobile Tech Test Solution
 
-![Screenshot](/screenshots/main.png)
-![Screenshot](/screenshots/detail.png)
-
+![Post List](https://github.com/borissoto/mobile-tech-test/blob/master/main.png)
+![Post Detail](https://github.com/borissoto/mobile-tech-test/blob/master/detail.png)
 
 ## Installation
 Requires Android Studio
