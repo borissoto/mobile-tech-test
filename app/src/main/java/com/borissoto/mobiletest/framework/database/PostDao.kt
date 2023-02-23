@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface PostDao {
 
-    @Query("SELECT * FROM post")
+    @Query("SELECT * FROM post ORDER BY favorite DESC")
     fun getAllPosts(): Flow<List<Post>>
 
     @Query("SELECT * FROM post WHERE id = :id")
