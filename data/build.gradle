@@ -3,6 +3,7 @@ import com.borissoto.mobiletest.buildsrc.Libs
 plugins {
     id 'java-library'
     id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.kotlin.kapt'
 }
 
 java {
@@ -15,6 +16,10 @@ dependencies {
 
     implementation Libs.Kotlin.Coroutines.core
     implementation 'io.arrow-kt:arrow-core:1.0.1'
-
     implementation Libs.JavaX.inject
+
+    testImplementation Libs.JUnit.junit
+    testImplementation Libs.Mockito.kotlin
+    testImplementation Libs.Mockito.inline
+
 }
